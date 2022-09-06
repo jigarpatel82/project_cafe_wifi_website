@@ -1,0 +1,10 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <img src="/static/cafe.jpeg" class="img-fluid" alt="Responsive image" style="max-width:100%; height:auto;">
+    <h1 class="mt-4">Add cafe</h1>
+    {{wtf.quick_form(form=form, method='post', button_map={'submit':'danger'})}}
+</div>
+{% endblock %}

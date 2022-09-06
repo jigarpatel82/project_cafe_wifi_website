@@ -1,0 +1,22 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <img src="/static/cafe.jpeg" class="img-fluid" alt="Responsive image" style="max-width:100%; height:auto;">
+    {% with messages = get_flashed_messages() %}
+{% if messages %}
+  <ul class='flashes'>
+  {% for message in messages %}
+    <p class='text-center message_flash' style="color:#721c24; background-color: #f8d7da;
+    border-color: #c3e6cb; position: relative; padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid transparent;
+    border-radius: 0.25rem;">{{ message }}</p>
+  {% endfor %}
+  </ul>
+{% endif %}
+{% endwith %}
+    <h1>Login</h1>
+    {{wtf.quick_form(form=form, method='post', button_map={'submit':'danger'})}}
+    <p class="mt-4"></p>
+</div>
+{% endblock %}

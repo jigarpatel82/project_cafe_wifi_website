@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cafe & Wifi</title>
+<div>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+  <ul class='flashes'>
+  {% for message in messages %}
+    <li class='text-center message_flash' style="color:#155724; background-color: #d4edda;
+    border-color: #c3e6cb; position: relative; padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid transparent;
+    border-radius: 0.25rem;">{{ message }}</li>
+  {% endfor %}
+  </ul>
+{% endif %}
+{% endwith %}
+</div>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="flex flex-wrap w-full mb-20">
+      <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
+        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Cafes in London</h1>
+        <div class="h-1 w-20 bg-red-500 rounded"></div>
+      </div>
+      <p class="lg:w-1/2 w-full leading-relaxed text-gray-500">Checkout what does cafes in london has to offer and see if they offer the work friendly environment, Wifi, sockets etc. that you are looking for and of course the ☕.
+      </p>
+      {% if current_user.is_authenticated %}
+      {% else %}
+      <p style="color:#721c24; font-style:italic;">FOR EDITING THE CAFE INFO, PLEASE LOGIN</p>
+      {% endif %}
+    </div>
+    <div class="flex flex-wrap -m-4">
+      {% for cafe in cafes %}
+      <div class="xl:w-1/4 md:w-1/2 p-4">
+        <div class="bg-gray-100 p-6 rounded-lg">
+          <img class="h-40 rounded w-full object-cover object-center mb-6" src="{{ cafe.img_url }}" alt="content" style="width:400px;height:200px">
+          <h3 class="tracking-widest text-red-500 text-xs font-medium title-font">{{ cafe.location }}</h3>
+          <h2 class="text-lg text-gray-900 font-medium title-font mb-4">{{ cafe.name }}</h2>
+          <p class="leading-relaxed text-base">Amenities:</p>
+          {% if cafe.has_sockets == 1 %}
+          <p class="leading-relaxed text-base">Sockets</p>
+          {% endif%}
+          {% if cafe.has_toilet == 1 %}
+          <p class="leading-relaxed text-base">Toilets</p>
+          {% endif%}
+          {% if cafe.has_wifi == 1 %}
+          <p class="leading-relaxed text-base">Wi-Fi</p>
+          {% endif%}
+          {% if cafe.can_take_calls == 1 %}
+          <p class="leading-relaxed text-base">Take Calls</p>
+          {% endif%}
+          <p class="leading-relaxed text-base">Seats: {{ cafe.seats }}</p>
+          <p class="leading-relaxed text-base">Coffee Price: {{ cafe.coffee_price}}</p>
+          {% if current_user.is_authenticated %}
+          <button class="flex mx-auto mt-6 text-white bg-red-500 border-0 py-2 px-5 focus:outline-none hover:bg-red-600 rounded"><a
+                href="{{ url_for('edit_cafe', cafe_id=cafe.id) }}">Edit</a></button>
+          <button class="flex mx-auto mt-6 text-white bg-red-500 border-0 py-2 px-5 focus:outline-none hover:bg-red-600 rounded"><a
+                  href="{{ url_for('delete', cafe_id=cafe.id)}}">Delete</a></button>
+          {% endif %}
+        </div>
+      </div>
+        {% endfor %}
+    </div>
+  </div>
+</section>
+</body>
+</html>
